@@ -123,7 +123,7 @@ const Cart = () => {
               </p>
               <Link
                 to="/checkout"
-                className="checkout bg-sky-500 w-full py-3 uppercase font-medium text-sky-50 tracking-widest hover:bg-sky-600 duration-300"
+                className="checkout bg-sky-500 w-full py-3 uppercase font-medium text-sky-50 tracking-widest hover:bg-sky-600 duration-300 text-center"
               >
                 Checkout
               </Link>
