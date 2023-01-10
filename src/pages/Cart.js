@@ -3,12 +3,17 @@ import {
   addToCart,
   clearCart,
   decreaseCart,
+  getSubTotal,
   removeFromCart,
 } from "../features/products/cartSlice";
 import { currencyFormatter } from "../utilities/currencyFormatter";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+
 const Cart = () => {
-  const { cartItems: data } = useSelector((state) => state.cart);
+  const { cartItems: data, cartTotalAmount: subTotal } = useSelector(
+    (state) => state.cart
+  );
   const dispatch = useDispatch();
   const handleRemove = (product) => {
     dispatch(removeFromCart(product));
@@ -20,10 +25,16 @@ const Cart = () => {
     dispatch(addToCart(product));
   };
 
+  useEffect(() => {
+    dispatch(getSubTotal());
+  }, [data, dispatch]);
+
   return (
     <div className="cart-section container mx-auto py-10">
       <h2 className="section-title uppercase text-2xl font-bold space-font text-center mb-10">
-        {data.length > 0 ? "Your cart" : "Cart is empty"}
+        {data.length > 0
+          ? `You've added ${data.length} item${data.length > 1 ? "s" : ""}`
+          : "Your cart is empty"}
       </h2>
       {data.length === 0 && (
         <div className="text-center">
@@ -87,7 +98,7 @@ const Cart = () => {
                     </button>
                   </div>
                   <div className="total-price ml-auto">
-                    {currencyFormatter(product.price)}
+                    {currencyFormatter(product.price * product.cartQuantity)}
                   </div>
                 </div>
               ))}
@@ -103,7 +114,9 @@ const Cart = () => {
             <div className="flex flex-col items-start gap-2">
               <div className="top flex justify-between w-full text-2xl font-medium">
                 <span className="text-green-500">Subtotal</span>
-                <span className="text-sky-500">$200</span>
+                <span className="text-sky-500">
+                  {currencyFormatter(subTotal)}
+                </span>
               </div>
               <p className="text-gray-400">
                 Taxes and shipping costs are calculated at the checkout
