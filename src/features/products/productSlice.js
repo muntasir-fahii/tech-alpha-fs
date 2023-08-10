@@ -9,7 +9,9 @@ const initialState = {
 export const productsFetching = createAsyncThunk(
   "products/productsFetching",
   async () => {
-    const res = await axios.get("tech-alpha-server.vercel.app/api/products");
+    const res = await axios.get(
+      "https://tech-alpha-server.vercel.app/api/products"
+    );
     return res.data;
   }
 );
